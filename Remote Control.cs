@@ -1,5 +1,5 @@
 /*
-Takes an imput argument of a gps coordinate
+Takes an input argument of a gps coordinate
 GPS:Ice:1048917.7584688:79752.6323696933:1600020.79087306:
 */
 
