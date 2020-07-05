@@ -1,8 +1,17 @@
 //===========================================================================
 //Config
 //===========================================================================
+/*Name of a control seat, if you want it to display the script*/
 string COCKPIT_NAME = "Control Seat";
+/*The surface of the control seat you want the script displayed on*/
 int surface = 1;
+/*Name of LCD panels you want to display info on*/
+string PANEL_NAME = "[H2O2 LCD]";
+
+/*Keywords  to be placed in Custom Data to display information*/
+string HYDROGEN_KEYWORD = "Hydrogen";
+string OXYGEN_KEYWORD = "Oxygen";
+string ICE_KEYWORD = "Ice";
 
 //===========================================================================
 //End Of Config
@@ -168,7 +177,8 @@ void Step4(){
 	PREVIOUS_ICE = CURRENT_ICE;
 }
 
-string PANEL_NAME = "[H2O2 LCD]";
+
+
 void Step5(){
 	List<IMyTerminalBlock> panels = new List<IMyTerminalBlock>();
 	GridTerminalSystem.SearchBlocksOfName(PANEL_NAME, panels, block => block.IsSameConstructAs(Me));
@@ -180,18 +190,18 @@ void Step5(){
 			hydrogen = false;
 			oxygen = false;
 			ice = false;
-			if(panel.CustomData.Contains("Hydrogen")) hydrogen = true;
-			if(panel.CustomData.Contains("Oxygen")) oxygen = true;
-			if(panel.CustomData.Contains("Ice")) ice = true;
+			if(panel.CustomData.Contains(HYDROGEN_KEYWORD)) hydrogen = true;
+			if(panel.CustomData.Contains(OXYGEN_KEYWORD)) oxygen = true;
+			if(panel.CustomData.Contains(ICE_KEYWORD)) ice = true;
 			if(hydrogen || oxygen || ice)
 				WriteToLCD(panel as IMyTextSurface,hydrogen,oxygen,ice);
 		}
 	}
 	hydrogen = false; oxygen = false; ice = false;
 	if(COCKPIT != null){
-		if(COCKPIT.CustomData.Contains("Hydrogen")) hydrogen = true;
-		if(COCKPIT.CustomData.Contains("Oxygen")) oxygen = true;
-		if(COCKPIT.CustomData.Contains("Ice")) ice = true;
+		if(COCKPIT.CustomData.Contains(HYDROGEN_KEYWORD)) hydrogen = true;
+		if(COCKPIT.CustomData.Contains(OXYGEN_KEYWORD)) oxygen = true;
+		if(COCKPIT.CustomData.Contains(ICE_KEYWORD)) ice = true;
 		if(hydrogen || oxygen || ice)
 			WriteToLCD(COCKPIT_SCREEN,hydrogen,oxygen,ice);
 	}
