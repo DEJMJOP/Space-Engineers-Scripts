@@ -17,36 +17,43 @@
 //===========================================================================
 
 public Program(){
-	Runtime.UpdateFrequency = UpdateFrequency.Update10;
+	Runtime.UpdateFrequency = UpdateFrequency.Update100;
 }
 
 public void Main(){
 	if(firstTime) FirstTime();
 	step();
+	Echo("Step: " + currentStep);
 	switch(currentStep){
 		case 0:
 		//Calculate Amount of Hydrogen/Ticks left
 			step0();
+			Echo("Run 0");
 			break;
 		case 1:
 		//Time till Hydrogen is empty
 			step1();
+			Echo("Run 1");
 			break;
 		case 2:
 		//Hydrogen Status
 			step2();
+			Echo("Run 2");
 			break;
 		case 3:
 		//Amount of Ice
 			step3();
+			Echo("Run 3");
 			break;
 		case 4:
 		//Ice ticks left and time
 			step4();
+			Echo("Run 4");
 			break;
 		case 5:
 		//Display on LCDs
 			step5();
+			Echo("Run 5");
 			break;
 		
 	}
@@ -54,7 +61,7 @@ public void Main(){
 int currentStep = -1;
 public void step(){
 	currentStep++;
-	if(currentStep == 7) currentStep = 0;
+	if(currentStep == 6) currentStep = 0;
 }
 
 
