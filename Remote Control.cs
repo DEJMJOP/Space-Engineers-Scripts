@@ -57,8 +57,6 @@ public void Main(string args){
 
 /*
 A function that takes a string as an input, and returns a Vector3D gps coordinate 
-as an alternative (for ease of use), if you just want a function that gives you a
-Vector3D output
 */
 
 Vector3D StringToGPS(string gps){
