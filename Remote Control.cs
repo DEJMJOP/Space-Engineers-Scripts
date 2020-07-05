@@ -1,3 +1,8 @@
+/*
+Takes an imput argument of a gps coordinate
+GPS:Ice:1048917.7584688:79752.6323696933:1600020.79087306:
+*/
+
 public void Main(string args){
 	Echo("Run");
 	//Create a list to store coords
@@ -7,7 +12,6 @@ public void Main(string args){
 	//Clear the list of coords
 	coords.Clear();
 	//Creates a regular expression matching a standard GPS coordinate
-	//GPS:Ice:1048917.7584688:79752.6323696933:1600020.79087306:
 	string pattern = @"GPS:[a-zA-Z0-9_.-]*:(-*\d*.\d*):(-*\d*.\d*):(-*\d*.\d*):";
 	//Creates an object to store a Match collection, that will store the coords if they match the above format
 	System.Text.RegularExpressions.MatchCollection matches;
