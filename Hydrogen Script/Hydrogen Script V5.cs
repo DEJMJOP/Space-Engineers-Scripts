@@ -183,7 +183,8 @@ void Step5(){
 			if(panel.CustomData.Contains("Hydrogen")) hydrogen = true;
 			if(panel.CustomData.Contains("Oxygen")) oxygen = true;
 			if(panel.CustomData.Contains("Ice")) ice = true;
-			WriteToLCD(panel as IMyTextSurface,hydrogen,oxygen,ice);
+			if(hydrogen || oxygen || ice)
+				WriteToLCD(panel as IMyTextSurface,hydrogen,oxygen,ice);
 		}
 	}
 	hydrogen = false; oxygen = false; ice = false;
@@ -191,7 +192,8 @@ void Step5(){
 		if(COCKPIT.CustomData.Contains("Hydrogen")) hydrogen = true;
 		if(COCKPIT.CustomData.Contains("Oxygen")) oxygen = true;
 		if(COCKPIT.CustomData.Contains("Ice")) ice = true;
-		WriteToLCD(COCKPIT_SCREEN,hydrogen,oxygen,ice);
+		if(hydrogen || oxygen || ice)
+			WriteToLCD(COCKPIT_SCREEN,hydrogen,oxygen,ice);
 	}
 	
 }
@@ -204,36 +206,36 @@ void WriteToLCD(IMyTextSurface surface, bool hydrogen, bool oxygen, bool ice){
 	surface.Alignment = VRage.Game.GUI.TextPanel.TextAlignment.LEFT;
 	surface.TextPadding = 0f;
 	string s = "===================================";
+	string temp = "";
+	if(hydrogen) temp += "Hydrogen";
+	if(hydrogen && oxygen || hydrogen && ice) temp += "/";
+	if(oxygen) temp += "Oxygen";
+	if(oxygen && ice) temp += "/";
+	if(ice) temp += "Ice";
+	temp += " Storage";
+	s += NewLineString(temp);
+	s += NewLineString("===================================");
+	
 	if(hydrogen){
 		s += NewLineString("Hydrogen Tanks: " + HYDROGEN_TANKS.Count);
 		s += NewLineString("Hydrogen Filled: " + HYDROGEN_PERCENT.ToString("##0.#0") + "%");
 		s += NewLineString("Time Left: " + HYDROGEN_MINUTES_LEFT + "m " + HYDROGEN_SECONDS_LEFT.ToString("0#") + "s");
 		s += NewLineString("Status: " + HYDROGEN_STATUS);
-		s += NewLineString("-----------------------------------");
 	}
+	if(hydrogen && oxygen || hydrogen && ice) s += NewLineString("-----------------------------------");
+	
 	if(oxygen){
 		s += NewLineString("Oxygen Tanks: " + OXYGEN_TANKS.Count);
 		s += NewLineString("Oxygen Filled: " + OXYGEN_PERCENT.ToString("##0.#0") + "%");
 		s += NewLineString("Time Left: " + OXYGEN_MINUTES_LEFT + "m " + OXYGEN_SECONDS_LEFT.ToString("0#") + "s");
 		s += NewLineString("Status: " + OXYGEN_STATUS);
-		s += NewLineString("-----------------------------------");
 	}
+	if(oxygen && ice) s += NewLineString("-----------------------------------");
 	if(ice){
-		s += NewLineString("Ice: " + CURRENT_ICE.ToString("#,###0"));
+		s += NewLineString("Ice: " + CURRENT_ICE.ToString("#,###0") + " / " + REQUIRED_ICE.ToString("#,###0"));
 		s += NewLineString("Ice Time: " + ICE_MINUTES_LEFT + "m " + ICE_SECONDS_LEFT.ToString("0#") + "s");
-		s += NewLineString("Required Ice: " + REQUIRED_ICE.ToString("#,###0"));
 		
 		double icePercent = CURRENT_ICE / REQUIRED_ICE * 100;
-		
-		string reqIcePercent = "[";
-		for(int i = 1 ; i < 11; i++){
-			if(icePercent/10 > i) reqIcePercent += "|";
-			else reqIcePercent += "-";
-		}
-		reqIcePercent += "]";
-		
-		s += NewLineString(reqIcePercent);
-		s += NewLineString("Ice Percent: " + icePercent.ToString("##0.#0"));
 	}
 	
 	s += NewLineString("===================================");
