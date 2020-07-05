@@ -13,6 +13,9 @@ string HYDROGEN_KEYWORD = "Hydrogen";
 string OXYGEN_KEYWORD = "Oxygen";
 string ICE_KEYWORD = "Ice";
 
+/*Word to exclude gas tanks*/
+string EXCLUDE_KEYWORD = "Exclude";
+
 //===========================================================================
 //End Of Config
 //===========================================================================
@@ -281,8 +284,10 @@ void FirstTime(){
 	Echo("All Tanks: " + allTanks.Count);
 	
 	foreach(IMyGasTank tank in allTanks){
-		if(tank.DetailedInfo.Contains("Oxygen Tank")) OXYGEN_TANKS.Add(tank);
-		else if (tank.DetailedInfo.Contains("Hydrogen Tank")) HYDROGEN_TANKS.Add(tank);
+		if(!tank.CustomData.Contains(EXCLUDE_KEYWORD)){
+			if(tank.DetailedInfo.Contains("Oxygen Tank")) OXYGEN_TANKS.Add(tank);
+			else if (tank.DetailedInfo.Contains("Hydrogen Tank")) HYDROGEN_TANKS.Add(tank);
+		}
 	}
 	GridTerminalSystem.GetBlocksOfType<IMyGasGenerator>(OXYGEN_GENERATORS, block => block.IsSameConstructAs(Me));
 	GridTerminalSystem.GetBlocksOfType<IMyCargoContainer>(CARGO_CONTAINERS, block => block.IsSameConstructAs(Me));
