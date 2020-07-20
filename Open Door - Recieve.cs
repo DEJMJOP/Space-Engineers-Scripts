@@ -15,14 +15,15 @@ public Program()
 	pbSurface.Alignment = VRage.Game.GUI.TextPanel.TextAlignment.CENTER;
 	pbSurface.TextPadding = 30f;
 }
-
+List<IMyDoor> doors;
 public void Main()
 {
+	doors = new List<IMyDoor>();
+	GridTerminalSystem.GetBlocksOfType<IMyDoor>(doors);
 	if(_bListener.HasPendingMessage){
 		HandleMessages();
 	}
 }
-
 
 bool HandleMessages()
 {
@@ -36,16 +37,21 @@ bool HandleMessages()
 		pbSurface.WriteText(ss);
 		
 		Vector3 pos = new Vector3(float.Parse(coords[0]), float.Parse(coords[1]), float.Parse(coords[2]));
-		
-		FindClosestDoor(pos).OpenDoor();
+		IMyDoor closestDoor = FindClosestDoor(pos);
+		foreach(IMyDoor d in doors)
+		{
+			if(d.CustomName.Equals(closestDoor.CustomName))
+			{
+				d.OpenDoor();
+			}
+				
+		}
 	} while(_bListener.HasPendingMessage);
 	return true;
 }
 
 IMyDoor FindClosestDoor(Vector3 pos)
 {
-	List<IMyDoor> doors = new List<IMyDoor>();
-	GridTerminalSystem.GetBlocksOfType<IMyDoor>(doors);
 	IMyDoor closest = doors.ElementAt(0);
 	foreach(IMyDoor d in doors)
 	{

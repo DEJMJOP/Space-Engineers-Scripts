@@ -1,13 +1,13 @@
-IMyRadioAntenna antenna;
+IMyTerminalBlock position;
 const string BroadcastTag = "[DRONE BROADCAST]";
 public Program()
 {
-	antenna = GridTerminalSystem.GetBlockWithName("Antenna") as IMyRadioAntenna;
+	position = GridTerminalSystem.GetBlockWithName("Antenna");
 }
 
 public void Main(string args)
 {
-	Vector3 pos = antenna.GetPosition();
+	Vector3 pos = position.GetPosition();
 	string s = pos.X + ":" + pos.Y + ":" + pos.Z;
 	IGC.SendBroadcastMessage<string>(BroadcastTag,s, TransmissionDistance.AntennaRelay);
 }
