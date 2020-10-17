@@ -4,7 +4,7 @@
 /*Name of a control seat, if you want it to display the script*/
 string COCKPIT_NAME = "Control Seat";
 /*The surface of the control seat you want the script displayed on*/
-int surface = 1;
+int surface = 0;
 /*Name of LCD panels you want to display info on*/
 string PANEL_NAME = "[H2O2 LCD]";
 
@@ -214,9 +214,9 @@ void Step5(){
 
 void WriteToLCD(IMyTextSurface surface, bool hydrogen, bool oxygen, bool ice){
 	surface.ContentType = ContentType.TEXT_AND_IMAGE;
-	surface.FontSize = .75f;
+	surface.FontSize = .65f;
 	surface.Font = "Monospace";
-	surface.Alignment = VRage.Game.GUI.TextPanel.TextAlignment.LEFT;
+	surface.Alignment = VRage.Game.GUI.TextPanel.TextAlignment.CENTER;
 	surface.TextPadding = 0f;
 	string s = "===================================";
 	string temp = "";
