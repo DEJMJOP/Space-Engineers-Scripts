@@ -2,7 +2,7 @@
 //Config
 //===========================================================================
 /*Name of a control seat, if you want it to display the script*/
-string COCKPIT_NAME = "Control Seat";
+string COCKPIT_NAME = "Battle Bus - Control Seat";
 /*The surface of the control seat you want the script displayed on*/
 int surface = 0;
 /*Name of LCD panels you want to display info on*/
@@ -184,7 +184,7 @@ void Step4(){
 
 void Step5(){
 	List<IMyTerminalBlock> panels = new List<IMyTerminalBlock>();
-	GridTerminalSystem.SearchBlocksOfName(PANEL_NAME, panels, block => block.IsSameConstructAs(Me));
+	GridTerminalSystem.SearchBlocksOfName(PANEL_NAME, panels);
 	
 	bool hydrogen = false; bool oxygen = false; bool ice = false;
 	
@@ -214,7 +214,7 @@ void Step5(){
 
 void WriteToLCD(IMyTextSurface surface, bool hydrogen, bool oxygen, bool ice){
 	surface.ContentType = ContentType.TEXT_AND_IMAGE;
-	surface.FontSize = .65f;
+	surface.FontSize = .75f;
 	surface.Font = "Monospace";
 	surface.Alignment = VRage.Game.GUI.TextPanel.TextAlignment.CENTER;
 	surface.TextPadding = 0f;
@@ -279,7 +279,8 @@ void FirstTime(){
 	CARGO_CONTAINERS = new List<IMyCargoContainer>();
 	
 	List<IMyGasTank> allTanks = new List<IMyGasTank>();
-	GridTerminalSystem.GetBlocksOfType<IMyGasTank>(allTanks, block => block.IsSameConstructAs(Me));
+	COCKPIT = GridTerminalSystem.GetBlockWithName(COCKPIT_NAME);
+	GridTerminalSystem.GetBlocksOfType<IMyGasTank>(allTanks, block => block.IsSameConstructAs(COCKPIT));
 	
 	Echo("All Tanks: " + allTanks.Count);
 	
@@ -289,15 +290,14 @@ void FirstTime(){
 			else if (tank.DetailedInfo.Contains("Hydrogen Tank")) HYDROGEN_TANKS.Add(tank);
 		}
 	}
-	GridTerminalSystem.GetBlocksOfType<IMyGasGenerator>(OXYGEN_GENERATORS, block => block.IsSameConstructAs(Me));
-	GridTerminalSystem.GetBlocksOfType<IMyCargoContainer>(CARGO_CONTAINERS, block => block.IsSameConstructAs(Me));
+	GridTerminalSystem.GetBlocksOfType<IMyGasGenerator>(OXYGEN_GENERATORS, block => block.IsSameConstructAs(COCKPIT));
+	GridTerminalSystem.GetBlocksOfType<IMyCargoContainer>(CARGO_CONTAINERS, block => block.IsSameConstructAs(COCKPIT));
 	
 	Echo("Hydrogen Tanks: " + HYDROGEN_TANKS.Count);
 	Echo("Oxygen Tanks: " + OXYGEN_TANKS.Count);
-	COCKPIT = GridTerminalSystem.GetBlockWithName(COCKPIT_NAME);
-	IMyTextSurfaceProvider c = null;
-	if(COCKPIT != null) c = COCKPIT as IMyTextSurfaceProvider;
-	if(c != null) COCKPIT_SCREEN = c.GetSurface(surface); 
+	
+	IMyTextSurfaceProvider c = COCKPIT as IMyTextSurfaceProvider;
+	COCKPIT_SCREEN = c.GetSurface(surface); 
 	
 }
 
