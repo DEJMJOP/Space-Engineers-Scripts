@@ -1,7 +1,7 @@
 public Program(){
     Runtime.UpdateFrequency = UpdateFrequency.Update100;
 }
-
+//
 public void Main(){
 		float currentInput = 0f;
 	
